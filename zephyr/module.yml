@@ -1,7 +1,7 @@
 # Local ZMK module, loaded by the build when this repository is passed as
 # -DZMK_EXTRA_MODULES (the GitHub workflows do that automatically). It holds
-# the scroll-direction fix that has nowhere else to live: the trackpad scroll
-# code is in jhob101/zmk and has no direction setting.
+# the scroll fixes that have nowhere else to live: the trackpad scroll code is
+# in jhob101/zmk and has no direction or axis-lock setting.
 name: bb9900-keyboard
 build:
   cmake: .
