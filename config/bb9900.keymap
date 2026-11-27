@@ -98,13 +98,13 @@
     //   boot_ralt: no Right Alt -> Super (so Left Alt + Start is Alt+Super)
     //              Right Alt    -> &bootloader
     //
-    // The Alt keys are one-shot, and a tapped ("armed") one-shot counts as
-    // held. So tapping both Alts and then Start also gets here. An earlier
-    // Ctrl+Alt+\ shortcut was dropped for exactly that reason: an armed Ctrl
-    // followed by an ordinary Alt+\ was far too easy to produce.
+    // Both Alts have to be held: modifiers are plain keys, so tapping an Alt
+    // first and then pressing Start just sends Alt+Super. That is why an
+    // earlier Ctrl+Alt+\ shortcut was dropped from here, when the modifiers
+    // were one-shot and a tapped Ctrl could be left armed by accident.
     //
-    // The fallback, which no one-shot can trigger, is in boot_layer: hold
-    // Left Fn, then also Right Fn, then press the \ key.
+    // The fallback is in boot_layer: hold Left Fn, then also Right Fn, then
+    // press the \ key.
     //
     // This is a mod-morph rather than a ZMK `combos` block because thoughtfix
     // found that any combos block on this board stopped the Enter key working.
@@ -139,14 +139,16 @@
         };
     };
 
-    // One-shot modifiers and the one-shot KITTY layer. These replace the
-    // host-side keyd config (oneshot(shift), oneshot(control), oneshot(alt),
-    // oneshot(altgr) and oneshot(kittymod)). Tap = applies to the next key
-    // only; hold = behaves as a normal modifier / momentary layer.
-    // keyd has no one-shot timeout; ZMK requires one, so it is set long.
-    // Tapping an armed one-shot again cancels it (cancel-on-retap), and a
+    // The one-shot KITTY layer on A, replacing the host-side keyd config
+    // (oneshot(kittymod)). Tap = applies to the next key only; hold = a normal
+    // momentary layer. keyd has no one-shot timeout; ZMK requires one, so it
+    // is set long. Tapping the layer again cancels it (cancel-on-retap), and a
     // mouse click or a trackpad scroll uses it up as a key would
     // (release-on-mouse). Both are additions in the ZMK fork.
+    //
+    // Shift, Ctrl, Alt and AltGr are plain modifiers, not one-shot: hold one
+    // and press a key, as usual. osm below is kept, unused, for anyone who
+    // wants them back: bind &osm LSHFT and so on instead of &kp LSHFT.
     behaviors {
         osm: oneshot_mod {
             compatible = "zmk,behavior-sticky-key";
@@ -289,8 +291,8 @@
 &kp GRAVE  &kp N1        &kp N2     &kp N3   &kp N4     &kp N5     &kp N6     &kp N7     &kp N8    &kp N9  &kp N0 &kp BSPC
 &kp TAB     &kp Q         &kp W      &kp E    &kp R      &kp T      &kp Y      &kp U      &kp I     &kp O   &kp P
 &kp SQT     &kp A         &kp S      &kp D    &kp F      &kp G      &kp H      &kp J      &kp K     &kp L   &kp SEMICOLON &kp ENTER        
-&osm LSHFT  &kp Z         &kp X      &kp C    &kp V      &kp B      &kp N      &kp M      &kp COMMA &kp DOT &osm RSHFT
-  &mo SYM   &osm LCTRL              &osm LALT             &kp SPACE           &osm RALT        &osm RCTRL    &mo UPPER        
+&kp LSHFT   &kp Z         &kp X      &kp C    &kp V      &kp B      &kp N      &kp M      &kp COMMA &kp DOT &kp RSHFT
+  &mo SYM   &kp LCTRL               &kp LALT             &kp SPACE           &kp RALT         &kp RCTRL    &mo UPPER        
             >;
         };
 
@@ -329,7 +331,7 @@
 
         // Gamepad mode, toggled with Fn+G. The D-pad drives the joystick X/Y
         // axes, A/B/X/Y/Select/Start are joystick buttons 1-6, and modifiers
-        // are plain (not one-shot). Everything else falls through, so the
+        // are plain, as everywhere else. Everything else falls through, so the
         // rest of the keyboard, the trackpad and the Fn layers still work.
         // Needs CONFIG_ZMK_JOYSTICK=y (bb9900.conf).
         game_layer {
@@ -420,9 +422,9 @@ KM(UP)   KM(DOWN) KM(RIGHT)              &trans                          &trans 
 
         // Left Fn held, then Right Fn as well: this layer sits on top of the
         // left Fn layer and adds one key, \ = bootloader. It is a deliberate
-        // three-key, two-handed chord. Fn keys are not one-shot, so unlike
-        // the Alt+Alt+Start shortcut it cannot be armed by earlier taps.
-        // Not reachable while the keyboard is locked.
+        // three-key, two-handed chord. The Fn keys are plain momentary layers,
+        // so unlike a shortcut through a modifier it cannot be armed by
+        // earlier taps. Not reachable while the keyboard is locked.
         boot_layer {
 
             bindings = <

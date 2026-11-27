@@ -8,7 +8,7 @@
 >   the trackpad press is a left click again. A click-to-toggle scroll switch
 >   can be put on a key (see the README).
 > - A tap on B is a mouse click, not F23.
-> - The volume key behavior was reworked to cope with one-shot Shift.
+> - The volume key behavior was reworked to cope with Shift being held.
 > - Bluetooth is switched off.
 > - The bootloader shortcuts changed. Fn+\\ and Ctrl+Alt+\\ are gone (the
 >   single mod-morph described below fired on Ctrl or Alt alone). It is now

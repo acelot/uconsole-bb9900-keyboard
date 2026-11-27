@@ -42,7 +42,7 @@ USB only: Bluetooth is switched off.
 | B tap | Middle click, sent on release, so it cannot drag. |
 | X | F22. |
 | Speaker | Volume down. With Shift, volume up. With Fn, mute. |
-| Shift, Ctrl, Alt, AltGr | [One-shot modifiers](#one-shot-modifiers). |
+| Shift, Ctrl, Alt, AltGr | Ordinary [modifiers](#modifiers): hold and press a key. |
 
 The [middle-click firmware](#which-file) swaps two of these: pressing the
 trackpad is a middle click and a tap on B is a left click.
@@ -62,11 +62,11 @@ buttons, for right-hand use:
 Y and B click on press and can be held to drag. Everything else is as above,
 except that there is no D-pad pointer and no kitty key.
 
-### One-shot modifiers
+### Modifiers
 
-Tap Shift, Ctrl, Alt or AltGr and it applies to the next key, click or scroll
-only. Tap it again to cancel. Holding works as normal. An unused tap expires
-after 60 seconds.
+Shift, Ctrl, Alt and AltGr are ordinary modifiers: hold one and press a key.
+A tap on its own does nothing, and a modifier never carries over to the next
+key, a mouse click or a scroll.
 
 ### Kitty key
 
@@ -117,7 +117,7 @@ Fn + G toggles it. The keyboard also appears as a USB joystick
 | Select | Button 5. Holding it still scrolls. |
 | Start | Button 6 |
 
-Modifiers are not one-shot in this mode. Everything else works as usual.
+Everything else works as usual.
 
 To test it with [sdl-jstest](https://github.com/Grumbel/sdl-jstest):
 
@@ -157,7 +157,7 @@ Added here:
 - Trackpad press as left click, middle click on B, and a second firmware with
   the two swapped.
 - A one-handed firmware, with the mouse buttons on the face buttons.
-- Start as Super, the kitty key and one-shot modifiers, replacing a
+- Start as Super and the kitty key, replacing a
   [keyd](https://github.com/rvaiya/keyd) config.
 - Y or B plus the D-pad as a mouse.
 - The keyboard lock.
@@ -168,7 +168,6 @@ Added here:
 - The trackpad light shows scroll mode, can be switched off, and goes out when
   idle. Both lights go out while the uConsole sleeps (with the
   [sleep service](#sleep-with-the-power-button)).
-- One-shot modifiers cancel on a second tap and clear after a click or scroll.
 - Bluetooth off.
 - Fixes: Shift + Speaker no longer leaves Shift stuck, and the bootloader can
   no longer be entered by accident with `\`.
@@ -319,7 +318,7 @@ Common changes:
 | Trackpad light on another key | `&tp_light TPL_TOG` toggles it. `TPL_ON` and `TPL_OFF` set it. |
 | Trackpad light left alone entirely | `CONFIG_ZMK_TRACKPAD_SCROLL_LIGHT=n` |
 | Backlight auto-off delay | `CONFIG_ZMK_IDLE_TIMEOUT`, in milliseconds |
-| One-shot timeout | `release-after-ms` on `osm` and `osl` in the keymap |
+| One-shot kitty key timeout | `release-after-ms` on `osl` in the keymap |
 | Kitty key list | `kitty_layer` in the keymap |
 
 Avoid ZMK's `combos` feature: on this board it stops the Enter key working.
@@ -346,8 +345,6 @@ under `#ifdef ONE_HANDED`, a worked example to copy for a layout of your own.
 - **Left Shift after Fn does nothing.** Press Shift before Fn, or use Right
   Shift.
 - **Unlocking needs Fn released first.**
-- **The Alt keys are one-shot**, so tapping both and then pressing Start also
-  enters the bootloader.
 - **The D-pad pointer and the trackpad share one mouse report**, so using both
   at once can feel uneven.
 - **Based on a December 2023 ZMK.** Current ZMK documentation may not apply.
