@@ -226,11 +226,14 @@ tar xf toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz -C zephyr-sdk-0.16.8
 cd ~/uconsole-bb9900-keyboard
 west build -s zmk/app -d build -b bb9900 -- \
   -DZMK_CONFIG="$(pwd)/config" \
+  -DZMK_EXTRA_MODULES="$(pwd)" \
   -DZEPHYR_SDK_INSTALL_DIR="$HOME/zephyr-sdk-0.16.8"
 ```
 
 The firmware is `build/zephyr/zmk.uf2`. Add `-p always` to `west build` after
-changing a `.conf` file or `west.yml`.
+changing a `.conf` file or `west.yml`. `-DZMK_EXTRA_MODULES` loads the small
+local module in `src/` that reverses the scroll direction; the GitHub workflow
+turns that on by itself.
 
 ### Publishing a release
 
@@ -306,6 +309,7 @@ not come back on wake.
 | [`config/bb9900.keymap`](config/bb9900.keymap) | Every key on every layer, with comments. Start here. |
 | [`config/bb9900.conf`](config/bb9900.conf) | Settings, each with a comment. |
 | [`config/west.yml`](config/west.yml) | Which ZMK source to build against. |
+| [`zephyr/module.yml`](zephyr/module.yml) | Small local ZMK module, used here for the scroll direction (`src/scroll_invert.c`). |
 
 Common changes:
 
@@ -315,6 +319,7 @@ Common changes:
 | Y, X, B and A | `Y_KEY`, `X_KEY`, `B_KEY` and `A_KEY` at the top of the keymap |
 | Pointer speed | `CONFIG_TRACKPAD_SPEEDMULTIPLIER_HORIZONTAL` and `_VERTICAL`, in percent |
 | Scroll speed | `CONFIG_TRACKPAD_SCROLL_SPEED`, in percent |
+| Scroll direction | `CONFIG_BB9900_SCROLL_INVERT_X` and `_Y`: both are `y` (reversed) |
 | Trackpad light on another key | `&tp_light TPL_TOG` toggles it. `TPL_ON` and `TPL_OFF` set it. |
 | Trackpad light left alone entirely | `CONFIG_ZMK_TRACKPAD_SCROLL_LIGHT=n` |
 | Backlight auto-off delay | `CONFIG_ZMK_IDLE_TIMEOUT`, in milliseconds |

@@ -1,0 +1,18 @@
+# Settings for the local module in zephyr/module.yml. Both are set in
+# config/bb9900.conf; the defaults leave the ZMK fork's direction alone.
+
+config BB9900_SCROLL_INVERT_X
+    bool "Reverse horizontal trackpad scrolling"
+    default n
+    help
+      Negate horizontal scroll deltas, so moving a finger left scrolls
+      right. Vertical scrolling is unaffected unless
+      BB9900_SCROLL_INVERT_Y is also set.
+
+config BB9900_SCROLL_INVERT_Y
+    bool "Reverse vertical trackpad scrolling"
+    default n
+    help
+      Negate vertical scroll deltas, so moving a finger up scrolls down.
+      Horizontal scrolling is unaffected unless
+      BB9900_SCROLL_INVERT_X is also set.
